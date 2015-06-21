@@ -5,6 +5,11 @@
 import argparse
 import base64
 import urllib2
+import ssl
+
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
 
 
 def display_banner():
@@ -45,7 +50,7 @@ def poc(hostname, file):
 
 
 def http_read(url):
-    return urllib2.urlopen(url).read()
+    return urllib2.urlopen(url, context=ctx).read()
 
 if __name__ == "__main__":
     display_banner()
